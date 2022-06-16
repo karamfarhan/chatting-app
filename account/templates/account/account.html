@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+
+
+<div class="container ">
+	<h3 class=" text-center text-success">Profile</h3>
+	<div class="messaging">
+		  <div class="stylish-input-group inbox_msg text-light text-center">
+			<hr>
+			<div class="card profile-card m-2" style="background-color: black;">
+				<div class="card-body">
+					<div class="d-flex flex-column justify-content-center p-4">
+						<div class="image-container mx-auto mb-4">
+							<img class="d-block border border-dark rounded-circle img-fluid mx-auto profile-image"
+								alt="codingwithmitch logo" id="id_profile_image" src="{{profile_image}}" width="150">
+						</div>
+						<p class="mt-4 mb-1 field-heading text-success">Email</p>
+						{% if is_self %}
+						<h5>{{email}}</h5>
+						{% else %}
+						{% if hide_email %}
+						<h5>**********</h5>
+						{% else %}
+						<h5>{{email}}</h5>
+						{% endif %}
+						{% endif %}
+						<p class="mt-4 mb-1 field-heading text-success">Username</p>
+						<h5>{{username}}</h5>
+
+						<!-- If Auth user is viewing their own profile -->
+						{% if is_self %}
+						<div class="d-flex flex-column mt-4">
+							<a class="mt-4 btn btn-primary" href="{% url 'account:account_edit' user_id=id %}">Update</a>
+							<a class="m-auto" href="{% url 'password_change' %}">Change password</a>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		  </div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	// called from base_js.html
+	//preloadImage("{{profile_image|safe}}", 'id_profile_image')
+
+	function onFriendRequestSent() {
+		location.reload();
+	}
+
+	function onFriendRequestCancelled() {
+		location.reload();
+	}
+
+	function onFriendRemoved() {
+		location.reload();
+	}
+
+	function onFriendRequestAccepted() {
+		location.reload();
+	}
+
+	function onFriendRequestDeclined() {
+		location.reload();
+	}
+
+
+	var sendFriendRequestBtn = document.getElementById("id_send_friend_request_btn")
+	if (sendFriendRequestBtn != null) {
+		sendFriendRequestBtn.addEventListener("click", function () {
+			//sendFriendRequest("{{id}}", onFriendRequestSent)
+		})
+	}
+
+	var cancelFriendRequestBtn = document.getElementById("id_cancel_friend_request_btn")
+	if (cancelFriendRequestBtn != null) {
+		cancelFriendRequestBtn.addEventListener("click", function () {
+			//cancelFriendRequest("{{id}}", onFriendRequestCancelled)
+		})
+	}
+
+	var removeFriendBtn = document.getElementById("id_unfriend_btn")
+	if (removeFriendBtn != null) {
+		removeFriendBtn.addEventListener("click", function () {
+			//removeFriend("{{id}}", onFriendRemoved)
+		})
+	}
+
+	function triggerAcceptFriendRequest(friend_request_id) {
+		//acceptFriendRequest(friend_request_id, onFriendRequestAccepted)
+	}
+
+	function triggerDeclineFriendRequest(friend_request_id) {
+		//declineFriendRequest(friend_request_id, onFriendRequestDeclined)
+	}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}

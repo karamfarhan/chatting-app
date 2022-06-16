@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<div class="container">
+	<h3 class=" text-center text-success">Registeration Page</h3>
+	<div class="messaging">
+		  <div class="stylish-input-group inbox_msg text-danger text-center">
+			<hr>
+			<form method="post">{% csrf_token %}
+				
+				<div class="srch_bar w-25 p-1">
+					<input type="email" name="email" id="inputEmail" class="search-bar"  placeholder="Email" >
+				</div>
+				<hr>
+				<div class="srch_bar w-25 p-1">
+					<input type="text" name="username" id="inputUsername" class="search-bar"  placeholder="Username" >
+				</div>
+				<hr>
+				<div class="srch_bar w-25 p-1">
+					<input type="password" name="password1" id="inputPassword1" class="search-bar"  placeholder="Password" >
+				</div>
+				<hr>
+				<div class="srch_bar w-25 p-1">
+					<input type="password" name="password2" id="inputPassword2" class="search-bar"  placeholder="Confirm password" >
+				</div>
+
+				<hr>
+				<button id="register_btn" class="btn btn-success" type="submit">Register</button>
+
+				<hr>
+				{% for field in registration_form %}
+					<p>
+					{% for error in field.errors %}
+						<p style="color: red">{{ error }}</p>
+					{% endfor %}
+					</p>
+				{% endfor %}
+				{% if registration_form.non_field_errors %}
+					<div style="color: red">
+						<p>{{registration_form.non_field_errors}}</p>
+					</div>
+				{% endif %}
+			</form>
+			<hr>
+				<div class="text-success">
+					<p>Already have Account ? <a class="" href="{% url 'account:login' %}">Login</a></p>
+				</div>
+		  </div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}

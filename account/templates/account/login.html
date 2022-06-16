@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+	<h3 class=" text-center text-success">Login Page</h3>
+	<div class="messaging">
+		  <div class="stylish-input-group inbox_msg  text-center">
+			<hr>
+			<form method="post">{% csrf_token %}
+				
+				<div class="srch_bar w-25 p-1">
+					<input type="email" name="email" id="inputEmail" class="search-bar"  placeholder="Email" >
+				</div>
+				<hr>
+				<div class="srch_bar w-25 p-1">
+					<input type="password" name="password" id="inputPassword" class="search-bar"  placeholder="Passowrd" >
+				</div>
+
+				<hr>
+				<button type="submit" class="btn btn-success">Login</button>
+				<hr>
+				{% for field in login_form %}
+
+					{% for error in field.errors %}
+						<p class="error" >{{ error }}</p>
+					{% endfor %}
+
+				{% endfor %}
+				{% if login_form.non_field_errors %}
+					<div>
+						<p>{{login_form.non_field_errors}}</p>
+					</div>
+				{% endif %}
+				{% if messages %}
+					{% for message in messages %}
+						{% if message.tags == 'success' %}
+							<div class="ui text-success">{{message}}</div>
+						{% elif message.tags == 'error' %}
+							<div class="ui text-danger">{{message}}</div>
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			</form>
+			<hr>
+				<div class="text-success">
+					<p>Forget your password ? <a class="m-auto " href="{% url 'password_reset' %}">Reset password</a></p>
+					<p>Don't have Account ? <a class="" href="{% url 'account:register' %}">Register</a></p>
+				</div>
+		  </div>
+	</div>
+</div>
+
+
+		{% endblock content %}
+
+
+
+
+		

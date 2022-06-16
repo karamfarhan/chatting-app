@@ -1,0 +1,136 @@
+<script>
+
+
+    var user_username = JSON.parse(document.getElementById('user_username').textContent);
+    var user_image = JSON.parse(document.getElementById('user_profile_image').textContent);
+    var room = JSON.parse(document.getElementById('room').textContent);
+    
+    socket_url = `ws://${window.location.host}/ws/chat/${room}/`
+    var chatsocket = new WebSocket(socket_url)
+    
+    // sessionStorage.setItem("is_reloaded", 'false');
+    // //check for Navigation Timing API support
+    // if (window.performance) {
+    //     console.info("window.performance works fine on this browser");
+    //   }
+    //   console.info(performance.navigation.type);
+    //   if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+    //     sessionStorage.setItem("is_reloaded", 'true');
+    //   } else {
+    //     console.info( "This page is not reloaded");
+    //   }
+    
+    
+    
+    let form = document.getElementById('form')
+    
+    form.addEventListener('submit', (e)=> {
+        e.preventDefault()
+        let message = e.target.input.value 
+        if (message){
+
+            chatsocket.send(JSON.stringify({
+                'message': message,
+                'username': user_username,
+                'image_url' : user_image,
+                'room':room
+            }));
+            form.reset()
+        }
+    })
+    
+    
+    document.querySelector('#submit').onclick = function (e) {
+        const messageInputDom = document.querySelector('#input');
+        const message = messageInputDom.value;
+        if (message){
+            chatsocket.send(JSON.stringify({
+                'message': message,
+                'username': user_username,
+                'image_url' : user_image,
+                'room':room
+            }));
+            messageInputDom.value = '';
+
+        }
+    };
+    
+    
+    
+    
+    
+    
+    var messages_box = document.querySelector('#messages-box')
+    
+    chatsocket.onmessage = function(e){
+        $("#messages-box").animate({ scrollTop: 20000000 }, "slow");
+        let Django_messages = JSON.parse(e.data)
+    
+    
+        let income_Message_div = document.createElement('div')
+        let received_msg_div = document.createElement('div')
+        let p_ele = document.createElement('p')
+        p_ele.innerHTML = Django_messages.message
+        let span_ele = document.createElement('span')
+        span_ele.classList.add('time_date')
+        span_ele.innerHTML = Django_messages.date
+    
+    
+        if (Django_messages.msg_type === 'notify'){
+            
+            if(Django_messages.username !== user_username){
+                if (!sessionStorage.getItem(`${Django_messages.username}`)){
+                    income_Message_div.classList.add('text-center')
+                    p_ele.classList.add('text-success')
+                    p_ele.classList.add('my-0')
+                    span_ele.classList.add('my-0')
+                    received_msg_div.append(p_ele)
+                    received_msg_div.append(span_ele)
+                    sessionStorage.setItem(`${Django_messages.username}`, true);
+                }
+            }
+        
+    
+    
+            income_Message_div.append(received_msg_div) 
+            messages_box.append(income_Message_div)
+    
+    
+            
+        } else if(Django_messages.msg_type === 'con') {
+            console.log(Django_messages.msg_type)
+            if (Django_messages.username === user_username){
+                income_Message_div.classList.add('outgoing_msg')
+                received_msg_div.classList.add('sent_msg')
+                received_msg_div.append(p_ele)
+                received_msg_div.append(span_ele)
+    
+            } else {
+                
+                income_Message_div.classList.add('incoming_msg')
+                let income_Message_img_div = document.createElement('div') //
+                income_Message_img_div.classList.add('incoming_msg_img')//
+                let img_ele = document.createElement('img')//
+                img_ele.src = Django_messages.image_url
+                img_ele.alt = "sunil" //
+                img_ele.classList.add('image_circule')
+                received_msg_div.classList.add('received_msg')
+                let received_with_msg_div = document.createElement('div') //
+                received_with_msg_div.classList.add('received_withd_msg') //
+    
+                income_Message_img_div.append(img_ele)
+                received_msg_div.append(received_with_msg_div)
+                income_Message_div.append(income_Message_img_div)
+                received_with_msg_div.append(p_ele)
+                received_with_msg_div.append(span_ele)
+    
+            }
+    
+            income_Message_div.append(received_msg_div) 
+            messages_box.append(income_Message_div)
+    
+        }
+    
+    }
+    
+    </script>

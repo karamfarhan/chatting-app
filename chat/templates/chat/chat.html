@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+  <h3 class=" text-center text-success">Messaging</h3>
+  <div class="messaging">
+    <div class="inbox_msg">
+      <div class="inbox_people">
+        <div class="headind_srch">
+          <div class="recent_heading">
+            <!-- <h4>Recent</h4> -->
+            <a href="{% url "chat:newroom" %}" class="btn btn-outline-success btn-sm">Create New Chat</a>
+          </div>
+          <div class="srch_bar">
+            <div class="stylish-input-group">
+              <input type="text" class="search-bar" placeholder="Search">
+              <span class="input-group-addon">
+                <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- chatt list -->
+        {% include 'chat/conversation.html' %}
+        <!-- end chatt list -->
+      </div>
+      <!-- message start -->
+      {% include 'chat/messages.html' %}
+      <!-- message end -->
+    </div>
+  </div>
+</div>
+{% endblock content%}

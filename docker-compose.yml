@@ -1,0 +1,29 @@
+## if you want to run the projcet with docker-compose 
+## this containers for the redis server and the database(postgresql)
+
+version: "3.8"
+services:
+
+  # Redis
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  # Database Postgres
+  db:
+    image: postgres
+    container_name: postgres_db
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+    ports:
+      - "5432:5432"
+
+
+
+

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h3 class=" text-center text-success">Create Room</h3>
+  <div class="messaging">
+        <div class="stylish-input-group inbox_msg text-light text-center">
+          <hr>
+          <form method="post">{% csrf_token %}
+              Create Room With The User  
+              <div class="srch_bar w-25 p-3">
+                  <input type="text" name="username" class="search-bar"  placeholder="User Username" >
+              </div>
+              <button type="submit" class="btn btn-success btn-sm">Go To Chatt !</button>
+          </form>
+          {% if messages %}
+            {% for message in messages %}
+              <div class="ui {{message.tags}} message text-danger">
+                {{message}}
+              </div>
+            {% endfor %}
+          {% endif %}
+  
+          <hr>
+        </div>
+  </div>
+{% endblock content%}
